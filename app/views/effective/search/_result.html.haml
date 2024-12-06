@@ -1,0 +1,9 @@
+.search-result
+  - title = search.title(result)
+  - path = search.path(result)
+
+  %h4.search-title
+    = link_to(title, path, title: title)
+
+  = link_to (root_url.chomp('/') + path), path, class: 'search-link'
+  .search-body= search.body(result)

@@ -1,0 +1,31 @@
+// This is the Search#index page
+// This should be a div. The body tag also gets .effective-search on Search#index page only
+div.effective-search {
+  input#q_term {
+    font-size: 1rem;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 28.5 28.5'%3E%3Cpath d='M76.063,73.639,69.6,67.178A12.009,12.009,0,1,0,67.178,69.6l6.461,6.461a1.717,1.717,0,0,0,2.424-2.424ZM51.428,60A8.57,8.57,0,1,1,60,68.567,8.57,8.57,0,0,1,51.428,60Z' transform='translate(-48 -48)' fill='%230058a4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.75rem) center !important;
+  }
+
+  .search-result {
+    margin-bottom: 1.5rem;
+
+    // mark { }
+    //.search-title { }
+    //.search-link { }
+    //.search-body { }
+  }
+}
+
+// The nav item search bar
+.effective-search-nav-item {
+  input {
+    width: 250px;
+
+    font-size: 1rem;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 28.5 28.5'%3E%3Cpath d='M76.063,73.639,69.6,67.178A12.009,12.009,0,1,0,67.178,69.6l6.461,6.461a1.717,1.717,0,0,0,2.424-2.424ZM51.428,60A8.57,8.57,0,1,1,60,68.567,8.57,8.57,0,0,1,51.428,60Z' transform='translate(-48 -48)' fill='%230058a4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.75rem) center !important;
+  }
+}

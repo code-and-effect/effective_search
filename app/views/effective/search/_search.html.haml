@@ -1,0 +1,17 @@
+= render 'layout' do
+  = render('effective/search/form', search: search)
+
+  - if search.present?
+    %hr
+
+    - results = search.results(page: params[:page])
+
+    - if results.length == 0
+      .alert.alert-info There are no results for your search. Please try again.
+
+    - if results.length > 0
+      - collection = results.with_pg_search_highlight.select { |result| search.authorized?(result) }
+      = render(collection: collection, partial: 'effective/search/result', locals: { search: search })
+
+    %nav.d-flex.justify-content-center
+      = bootstrap_paginate(results, per_page: search.per_page)

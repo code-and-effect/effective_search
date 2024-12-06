@@ -1,0 +1,3 @@
+%li.nav-item.effective-search-nav-item
+  = effective_form_with(scope: :q, model: EffectiveSearch.Search.new, method: :get, url: effective_search.search_path, layout: :inline) do |f|
+    = f.text_field :term, label: false, placeholder: 'Search', autofocus: false, id: nil

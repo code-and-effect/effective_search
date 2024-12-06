@@ -1,0 +1,5 @@
+= effective_form_with(scope: :q, model: search, method: :get, url: effective_search.search_path) do |f|
+  = f.text_field :term, label: 'Search'
+
+  = f.save('Search', class: 'btn btn-primary btn-search mr-3', name: nil)
+  = link_to 'Reset', request.path
