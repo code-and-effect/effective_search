@@ -1,0 +1,16 @@
+.search-content.d-flex
+  - title = search.title(search_content)
+  - url = search.path(search_content)
+
+  - if search_content.file.attached?
+    = link_to(url, title: title) do
+      = image_tag(url_for(search_content.file), alt: title, class: 'img-fluid search-content-image d-none d-md-block', height: search_content.file.metadata['height'], width: search_content.file.metadata['width'])
+
+  .search-content-body
+    %h4.search-content-title= link_to(title, url, title: title)
+    = search.body(search_content)
+
+    .search-content-link
+      = link_to(url, title: title) do
+        View more
+        %span.pl-1 &rarr;

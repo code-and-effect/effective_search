@@ -29,3 +29,29 @@ div.effective-search {
     background-position: calc(100% - 0.75rem) center !important;
   }
 }
+
+// Search contents
+.search-content {
+  box-shadow: 0px 3px 16px #00000029 !important;
+  border-radius: 0.25rem !important;
+  margin-bottom: 3rem;
+}
+
+.search-content-title {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.search-content-image {
+  min-width: 300px;
+  min-height: 300px;
+}
+
+.search-content-body {
+  padding: 30px;
+}
+
+.search-content-link {
+  font-weight: 700;
+  text-decoration: none;
+}

@@ -11,6 +11,7 @@ EffectiveSearch::Engine.routes.draw do
   end
 
   namespace :admin do
+    resources :search_contents, except: [:show]
   end
 
 end
