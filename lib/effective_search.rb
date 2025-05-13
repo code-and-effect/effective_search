@@ -5,7 +5,7 @@ require 'effective_search/version'
 module EffectiveSearch
 
   def self.config_keys
-    [:search_class_name, :authenticate_user, :layout]
+    [:search_class_name, :search_contents_table_name, :authenticate_user, :layout]
   end
 
   include EffectiveGem

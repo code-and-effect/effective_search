@@ -1,0 +1,7 @@
+= tabs do
+  = tab 'Search Content' do
+    = render '/admin/search_contents/form_search_content', search_content: search_content
+
+  - if search_content.persisted?
+    = tab 'Logs' do
+      = render_datatable(search_content.log_changes_datatable, inline: true, namespace: :admin)

@@ -30,6 +30,11 @@ module EffectiveSearchSearch
     nil
   end
 
+  # These classes should not be searched
+  def unsearchable_types
+    ['Effective::Permalink', 'Effective::SearchContent']
+  end
+
   def per_page
     24
   end
@@ -47,6 +52,18 @@ module EffectiveSearchSearch
     @search_results
   end
 
+  # This is Set #1 of results we display on the search page
+  def search_contents
+    return [] unless present?
+    @search_contents ||= Effective::Resource.new(Effective::SearchContent.deep).search_any(term, columns: [:keywords])
+  end
+
+  # This is Set #2 of results we display on the search page
+  def permalinks
+    return [] unless present?
+    @permalinks ||= Effective::Resource.new(Effective::Permalink.deep).search_any(term, columns: [:title, :summary])
+  end
+
   # The unpaginated results of the search
   def search_results
     @search_results || []
@@ -62,9 +79,7 @@ module EffectiveSearchSearch
 
   # View helper
   def authorized?(result)
-    raise('expected a PgSearch::Document') unless result.kind_of?(PgSearch::Document)
-
-    searchable = result.searchable
+    searchable = result.try(:searchable) || result
 
     return false if searchable.blank?
     return false if searchable.try(:draft?)
@@ -79,7 +94,7 @@ module EffectiveSearchSearch
 
   # View helper
   def title(result)
-    (result.try(:searchable).try(:title) || result.to_s).html_safe
+    (result.try(:searchable).try(:title) || result.try(:title) || result).to_s.html_safe
   end
 
   # View helper
@@ -89,7 +104,7 @@ module EffectiveSearchSearch
 
   # View helper
   def body(result)
-    content = result.try(:pg_search_highlight) || result.to_s
+    content = (result.try(:pg_search_highlight) || result.try(:rich_text_body) || result).to_s
     scrubs.each { |pattern| content.gsub!(pattern, '') }
     content.html_safe
   end
@@ -120,6 +135,10 @@ module EffectiveSearchSearch
       collection = collection.where(searchable_type: searchable_types)
     end
 
+    if unsearchable_types.present?
+      collection = collection.where.not(searchable_type: unsearchable_types)
+    end
+
     # Preload what we need
     collection = collection.includes(searchable: [:rich_text_body])
 
@@ -129,7 +148,9 @@ module EffectiveSearchSearch
 
   # Sort of a view helper. The result is passed through here
   def effective_path(result)
-    case result.searchable_type
+    class_name = result.try(:searchable_type) || result.class.name
+
+    case class_name
     when 'Effective::Page'
       EffectivePages::Engine.routes.url_helpers.page_path(result.searchable)
     when 'Effective::Permalink'
@@ -138,6 +159,8 @@ module EffectiveSearchSearch
       EffectivePosts::Engine.routes.url_helpers.post_path(result.searchable)
     when 'Effective::Event'
       EffectiveEvents::Engine.routes.url_helpers.event_path(result.searchable)
+    when 'Effective::SearchContent'
+      result.url
     end
   end
 

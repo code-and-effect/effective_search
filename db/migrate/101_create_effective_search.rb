@@ -11,6 +11,14 @@ class CreateEffectiveSearch < ActiveRecord::Migration[7.0]
       t.belongs_to :searchable, polymorphic: true, index: true
       t.timestamps null: false
     end
+
+    create_table :search_contents, if_not_exists: true do |t|
+      t.string :title
+      t.string :url
+      t.string :keywords
+
+      t.timestamps
+    end
   end
 
   def down
@@ -21,5 +29,6 @@ class CreateEffectiveSearch < ActiveRecord::Migration[7.0]
 
     # PgSearch multisearch table
     drop_table :pg_search_documents, if_exists: true
+    drop_table :search_contents, if_exists: true
   end
 end

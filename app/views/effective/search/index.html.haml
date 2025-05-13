@@ -1,1 +1,8 @@
+.row
+  .col
+    %ol.breadcrumb
+      %li.breadcrumb-item= link_to "Home", "/"
+      %li.breadcrumb-item.active{"aria-current": "page"}= @page_title
+
+%h1= @page_title
 = render('effective/search/search', search: @search)
