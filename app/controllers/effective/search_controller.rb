@@ -21,9 +21,9 @@ module Effective
     end
 
     def build_search
-      search = EffectiveSearch.Search.new(search_params)
-      search.current_user = current_user
-      search.view_context = view_context
+      search = EffectiveSearch.Search.new()
+      search.assign_attributes(search_params.select { |k, _| search.respond_to?("#{k}=") })
+      search.assign_attributes(current_user: current_user, view_context: view_context)
       search
     end
 
