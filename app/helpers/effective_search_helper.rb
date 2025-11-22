@@ -6,4 +6,10 @@ module EffectiveSearchHelper
     end
   end
 
+  def effective_search_nav_icon
+    if EffectiveResources.authorized?(self, :index, EffectiveSearch.Search)
+      render('effective/search/form_nav_icon')
+    end
+  end
+
 end

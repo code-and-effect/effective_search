@@ -2,8 +2,6 @@
   = render('effective/search/form', search: search)
 
   - if search.present?
-    %hr
-
     - results = search.results(page: params[:page])
     - search_contents = search.search_contents.select { |resource| search.authorized?(resource) }
     - permalinks = search.permalinks.select { |resource| search.authorized?(resource) }
@@ -22,9 +20,6 @@
 
       -# Search results
       %div{class: (permalinks.present? ? 'col-xl-8 col-lg-7' : 'col')}
-        %h3 Pages
-        %hr.mt-0
-
         - if results.length == 0
           .alert.alert-info There are no results for your search. Please try again.
 
