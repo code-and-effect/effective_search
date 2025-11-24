@@ -9,14 +9,20 @@ div.effective-search {
   }
 
   .search-result {
-    margin-bottom: 1.5rem;
-
     // mark { }
-    //.search-title { }
+    // .search-title { }
     //.search-link { }
     //.search-body { }
   }
 }
+
+.search-result { margin-bottom: 2rem; }
+.search-title { font-size: 1.5rem; margin-bottom: 0.25rem; }
+.search-title a {  text-decoration: none;  }
+.search-title a:hover { }
+.search-link { display: block; margin-bottom: 0.25rem; }
+.search-body { }
+
 
 // The nav item search bar
 .effective-search-nav-item {
@@ -55,3 +61,25 @@ div.effective-search {
   font-weight: 700;
   text-decoration: none;
 }
+
+#effective-search-icon-form {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9000;
+  height: 90px;
+  border-bottom: solid 1px;
+}
+
+#effective-search-icon {
+  &:hover { cursor: pointer; }
+
+  .eb-icon-search {
+    height: 1.25rem;
+    width:1.25rem;
+    stroke-width: 3px;
+    margin-bottom: 0;
+  }
+}
+
+
