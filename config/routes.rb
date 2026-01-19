@@ -11,6 +11,7 @@ EffectiveSearch::Engine.routes.draw do
   end
 
   namespace :admin do
+    match '/search', to: 'search#index', via: [:get], as: :search
     resources :search_contents, except: [:show]
   end
 
