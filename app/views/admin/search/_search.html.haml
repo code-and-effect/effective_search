@@ -1,31 +1,38 @@
-= render 'layout' do
-  = render('admin/search/form', search: search)
+= effective_form_with(scope: :q, model: search, method: :get, url: effective_search.admin_search_path) do |f|
+  = f.search_field :term, placeholder: 'Search', autofocus: true,
+    'data-load-ajax-url': effective_search.admin_search_path,
+    'data-load-ajax-div': '#effective-search-results'
 
-  - if search.present?
-    - results = search.results(page: params[:page])
-    - search_contents = search.search_contents.select { |resource| search.authorized?(resource) }
-    - permalinks = search.permalinks.select { |resource| search.authorized?(resource) }
+  /= f.search_field :term, placeholder: 'Search', autofocus: true
 
-    - if search_contents.present?
-      = render(collection: search_contents, partial: 'admin/search_contents/search_content', locals: { search: search })
+  #effective-search-results
+    - if search.present?
+      %p Yep
 
-    .row
-      - if permalinks.present?
-        .col-xl-4.col-lg-5
-          %h3 Downloads
-          %hr.mt-0
-          %ul
-            - permalinks.each do |permalink|
-              %li= link_to(permalink.title, permalink.redirect_path, target: '_blank', title: permalink.title)
+      - results = search.results(page: params[:page])
+      - search_contents = search.search_contents.select { |resource| search.authorized?(resource) }
+      - permalinks = search.permalinks.select { |resource| search.authorized?(resource) }
 
-      -# Search results
-      %div{class: (permalinks.present? ? 'col-xl-8 col-lg-7' : 'col')}
-        - if results.length == 0
-          .alert.alert-info There are no results for your search. Please try again.
+      - if search_contents.present?
+        = render(collection: search_contents, partial: 'admin/search_contents/search_content', locals: { search: search })
 
-        - if results.length > 0
-          - collection = results.with_pg_search_highlight.select { |result| search.authorized?(result) }
-          = render(collection: collection, partial: 'admin/search/result', locals: { search: search })
+      .row
+        - if permalinks.present?
+          .col-xl-4.col-lg-5
+            %h3 Downloads
+            %hr.mt-0
+            %ul
+              - permalinks.each do |permalink|
+                %li= link_to(permalink.title, permalink.redirect_path, target: '_blank', title: permalink.title)
 
-        %nav.d-flex.justify-content-center
-          = bootstrap_paginate(results, per_page: search.per_page)
+        -# Search results
+        %div{class: (permalinks.present? ? 'col-xl-8 col-lg-7' : 'col')}
+          - if results.length == 0
+            .alert.alert-info There are no results for your search. Please try again.
+
+          - if results.length > 0
+            - collection = results.with_pg_search_highlight.select { |result| search.authorized?(result) }
+            = render(collection: collection, partial: 'admin/search/result', locals: { search: search })
+
+          %nav.d-flex.justify-content-center
+            = bootstrap_paginate(results, per_page: search.per_page)
