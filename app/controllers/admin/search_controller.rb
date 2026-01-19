@@ -27,8 +27,6 @@ module Admin
     end
 
     def search_params
-      return { term: params[:term] } if params[:term].present?
-
       return {} unless params[:q].present?
 
       if params[:q].respond_to?(:to_h)      # From the search form
