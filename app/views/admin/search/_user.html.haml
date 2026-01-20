@@ -5,17 +5,18 @@
       = user.to_s
       %br
       %small.text-muted
-        - if(membership = user.try(:membership) || user.try(:organizations).try(:first).try(:membership)).present?
-          = membership.statuses.to_sentence
-          = membership.categories.to_sentence
-          member
-          - if membership.number.present?
-            = ' #' + membership.number
-        - elsif user.membership_removed?
-          Removed member
-        - else
-          Not a member
-        = ' &bull; '.html_safe
+        - if user.class.try(:effective_memberships_owner?)
+          - if(membership = user.try(:membership) || user.try(:organizations).try(:first).try(:membership)).present?
+            = membership.statuses.to_sentence
+            = membership.categories.to_sentence
+            member
+            - if membership.number.present?
+              = ' #' + membership.number
+          - elsif user.membership_removed?
+            Removed member
+          - else
+            Not a member
+          = ' &bull; '.html_safe
 
         = user.email
 
