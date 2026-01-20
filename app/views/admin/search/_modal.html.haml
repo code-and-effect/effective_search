@@ -1,19 +1,8 @@
-%div#admin-search-modal.modal.fade{tabindex: '-1', role: 'dialog', 'aria-labelledby': 'adminSearchModalLabel', 'aria-hidden': 'true', 'data-turbolinks-permanent': true}
+%div#effective-search-admin-modal.modal.fade{tabindex: '-1', role: 'dialog', 'data-turbolinks-permanent': true}
   .modal-dialog.modal-lg{role: 'document'}
     .modal-content
       .modal-body
-        - search = @search || EffectiveSearch.AdminSearch.new()
+        - search = EffectiveSearch.AdminSearch.new
         = render('admin/search/search', search: search, modal: true)
-
-  -# .modal-dialog.modal-lg{role: 'document'}
-  -#   .modal-content
-  -#     .modal-header.border-bottom-0
-  -#       %h5#adminSearchModalLabel.modal-title
-  -#         = icon('search')
-  -#         Search
-  -#       %button.close{type: 'button', data: { dismiss: 'modal' }, 'aria-label': 'Close'}
-  -#         %span{'aria-hidden': 'true'} &times;
-
-  -#     .modal-body
-  -#       - search = @search || EffectiveSearch.AdminSearch.new()
-  -#       = render('admin/search/search', search: search)
+      .modal-footer.bg-light.p-1
+        %small.text-muted Search by name, email, #{etd(EffectiveMemberships.Organization)}, or order number.

@@ -1,0 +1,28 @@
+%tr
+  %td
+    %a{href: effective_memberships.edit_admin_organization_path(organization), title: organization}
+      %span.badge.rounded-circle.p-2.mr-3.float-left= icon('globe')
+      = organization
+      %br
+      %small.text-muted
+        - if organization.class.try(:effective_memberships_organization_owner?)
+          - if (membership = organization.try(:membership)).present?
+            = membership.statuses.to_sentence
+            = membership.categories.to_sentence
+            member
+            - if membership.number.present?
+              = ' #' + membership.number
+          - elsif organization.membership_removed?
+            Removed member
+          - else
+            Not a member
+          = ' &bull; '.html_safe
+
+        = organization.email
+
+        - if (principals = organization.representatives.select { |rep| rep.is_any?(:principal) }).present?
+          = ' &bull; '.html_safe
+          = principals.to_sentence
+
+        = ' &bull; '.html_safe
+        = pluralize(organization.representatives.count, 'representative')

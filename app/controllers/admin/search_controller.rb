@@ -12,11 +12,7 @@ module Admin
       @search = build_search
       @search.search!
 
-      if @search.present?
-        @page_title = "Search results for &lsquo;#{@search}&rsquo;".html_safe
-      else
-        @page_title = "Search"
-      end
+      @page_title = "Search"
     end
 
     def build_search

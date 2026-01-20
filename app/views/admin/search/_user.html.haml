@@ -1,0 +1,24 @@
+%tr
+  %td
+    %a{href: edit_admin_user_path(user), title: user}
+      %span.badge.rounded-circle.p-2.mr-3.float-left= icon('user')
+      = user.to_s
+      %br
+      %small.text-muted
+        - if(membership = user.try(:membership) || user.try(:organizations).try(:first).try(:membership)).present?
+          = membership.statuses.to_sentence
+          = membership.categories.to_sentence
+          member
+          - if membership.number.present?
+            = ' #' + membership.number
+        - elsif user.membership_removed?
+          Removed member
+        - else
+          Not a member
+        = ' &bull; '.html_safe
+
+        = user.email
+
+        - if user.try(:representatives).present?
+          = ' &bull; '.html_safe
+          = user.representatives.map(&:organization).to_sentence

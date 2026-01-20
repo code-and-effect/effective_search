@@ -1,46 +1,41 @@
-= effective_form_with(scope: :q, model: search, method: :get, url: effective_search.admin_search_path) do |f|
-  = hidden_field_tag :page, (params[:page] || 1)
+= render 'admin/search/layout' do
 
-  .row
-    .col
-      = f.search_field :term, placeholder: 'Search', label: false, autofocus: true, autocomplete: 'off',
-        'data-load-ajax-url': effective_search.admin_search_path,
-        'data-load-ajax-div': '#effective-search-results',
-        'data-load-ajax-all': true
+  = effective_form_with(scope: :q, model: search, method: :get, url: effective_search.admin_search_path) do |f|
+    = hidden_field_tag :page, (params[:page] || 1)
 
-    - if modal
-      .col-1
-        = link_to 'Clear', '#'
-      .col-1.text-center
-        %button.close{type: 'button', data: { dismiss: 'modal' }, 'aria-label': 'Close'}
-          %span{'aria-hidden': 'true'} &times;
+    .d-flex.align-items-center
+      .flex-grow-1
+        = f.search_field :term, placeholder: 'Search', label: false, autofocus: true, autocomplete: 'off',
+          'data-load-ajax-url': effective_search.admin_search_path,
+          'data-load-ajax-div': '#effective-search-results',
+          'data-load-ajax-all': true
 
-  #effective-search-results
-    - if search.present?
-      - results = search.results(page: params[:page])
-      - search_contents = search.search_contents.select { |resource| search.authorized?(resource) }
-      - permalinks = search.permalinks.select { |resource| search.authorized?(resource) }
+      - if modal
+        %div
+          = link_to 'Clear', '#', class: 'btn-link', style: "position: absolute; top: 1.5rem; right: 4rem; z-index: 10;", 'data-effective-search-clear': true
 
-      - if search_contents.present?
-        = render(collection: search_contents, partial: 'admin/search_contents/search_content', locals: { search: search })
+        %div.ml-4.mb-3
+          %button.close{type: 'button', data: { dismiss: 'modal' }, 'aria-label': 'Close'}
+            %span{'aria-hidden': 'true'} &times;
 
-      .row
-        - if permalinks.present?
-          .col-xl-4.col-lg-5
-            %h3 Downloads
-            %hr.mt-0
-            %ul
-              - permalinks.each do |permalink|
-                %li= link_to(permalink.title, permalink.redirect_path, target: '_blank', title: permalink.title)
+    #effective-search-results
+      - if search.present?
+        - # Users
+        %p Users (#{search.users.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.user_results, partial: 'admin/search/user')
 
-        -# Search results
-        %div{class: (permalinks.present? ? 'col-xl-8 col-lg-7' : 'col')}
-          - if results.length == 0
-            .alert.alert-info There are no results for your search. Please try again.
+        - # Organizations
+        %p #{ets(search.organizations)} (#{search.organizations.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.organization_results, partial: 'admin/search/organization')
 
-          - if results.length > 0
-            - collection = results.with_pg_search_highlight.select { |result| search.authorized?(result) }
-            = render(collection: collection, partial: 'admin/search/result', locals: { search: search })
+        - # Applicants
+        %p Applicants (#{search.applicants.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.applicant_results, partial: 'admin/search/applicant')
 
-          %nav.d-flex.justify-content-center
-            = bootstrap_paginate(results, per_page: search.per_page)
+        - # Orders
+        %p Orders (#{search.orders.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.order_results, partial: 'admin/search/order')

@@ -1,0 +1,16 @@
+%tr
+  %td
+    - path = (EffectiveResources.authorized?(self, :edit, order) ? effective_orders.admin_edit_order_path(order) : effective_orders.admin_order_path(order))
+
+    %a{href: path, title: order}
+      %span.badge.rounded-circle.p-2.mr-3.float-left= icon('shopping-cart')
+      = order.to_s
+      %br
+      %small.text-muted
+        = order.billing_name
+        = ' &bull; '.html_safe
+        = order.email
+        = ' &bull; '.html_safe
+        = price_to_currency(order.total)
+        = ' &bull; '.html_safe
+        = badge(order.status)
