@@ -1,0 +1,41 @@
+= render 'admin/search/layout' do
+
+  = effective_form_with(scope: :q, model: search, method: :get, url: effective_search.admin_search_path) do |f|
+    = hidden_field_tag :page, (params[:page] || 1)
+
+    .d-flex.align-items-center
+      .flex-grow-1
+        = f.search_field :term, placeholder: 'Search', label: false, autofocus: true, autocomplete: 'off',
+          'data-load-ajax-url': effective_search.admin_search_path,
+          'data-load-ajax-div': '#effective-search-results',
+          'data-load-ajax-all': true
+
+      - if modal
+        %div
+          = link_to 'Clear', '#', class: 'btn-link', style: "position: absolute; top: 1.5rem; right: 4rem; z-index: 10;", 'data-effective-search-clear': true
+
+        %div.ml-4.mb-3
+          %button.close{type: 'button', data: { dismiss: 'modal' }, 'aria-label': 'Close'}
+            %span{'aria-hidden': 'true'} &times;
+
+    #effective-search-results
+      - if search.present?
+        - # Users
+        %p Users (#{search.users.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.user_results, partial: 'admin/search/user')
+
+        - # Organizations
+        %p #{ets(search.organizations)} (#{search.organizations.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.organization_results, partial: 'admin/search/organization')
+
+        - # Applicants
+        %p Applicants (#{search.applicants.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.applicant_results, partial: 'admin/search/applicant')
+
+        - # Orders
+        %p Orders (#{search.orders.count})
+        %table.table.table-hover
+          %tbody= render(collection: search.order_results, partial: 'admin/search/order')

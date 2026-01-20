@@ -1,0 +1,8 @@
+%div#effective-search-admin-modal.modal.fade{tabindex: '-1', role: 'dialog', 'data-turbolinks-permanent': true}
+  .modal-dialog.modal-lg{role: 'document'}
+    .modal-content
+      .modal-body
+        - search = EffectiveSearch.AdminSearch.new
+        = render('admin/search/search', search: search, modal: true)
+      .modal-footer.bg-light.p-1
+        %small.text-muted Search by name, email, #{etd(EffectiveMemberships.Organization)}, or order number.

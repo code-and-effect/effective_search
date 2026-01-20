@@ -1,0 +1,12 @@
+%tr
+  %td
+    %a{href: effective_memberships.edit_admin_applicant_path(applicant), title: applicant}
+      %span.badge.rounded-circle.p-2.mr-3.float-left= icon('clipboard')
+      = applicant.owner
+      %br
+      %small.text-muted
+        = applicant.summary_title
+        = ' &bull; '.html_safe
+        = applicant.owner&.email
+        = ' &bull; '.html_safe
+        = badge(applicant.status)
