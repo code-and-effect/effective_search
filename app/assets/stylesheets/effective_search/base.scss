@@ -62,13 +62,38 @@ div.effective-search {
   text-decoration: none;
 }
 
+#effective-search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  // background-color: #f8f9fc;
+  opacity: 0;
+  z-index: 8999;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+
+  &.active {
+    opacity: 0.5;
+    pointer-events: auto;
+  }
+}
+
 #effective-search-icon-form {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 9000;
   height: 90px;
   border-bottom: solid 1px;
+
+  &.collapsing {
+    height: 90px !important;
+    width: 100% !important;
+    opacity: 0;
+    transition: opacity 0.35s ease !important;
+  }
 }
 
 #effective-search-icon {
