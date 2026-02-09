@@ -1,11 +1,13 @@
 %li.nav-item.effective-search-nav-item.d-flex
-  #effective-search-icon-form.collapse.width.w-100.bg-dark.shadow-sm
+  #effective-search-icon-form.collapse.width.w-100.bg-primary.shadow-sm.rounded-0
     .d-flex.p-4
       = effective_form_with(scope: :q, model: EffectiveSearch.Search.new, method: :get, url: effective_search.search_path, layout: :inline, class: "w-100") do |f|
         = f.text_field :term, label: false, placeholder: 'Search', autofocus: false, id: "effective-search-input", class: "form-control-lg border-0 w-100"
 
       .nav-link.ml-auto.flex-shrink-1.text-white{"data-toggle":"collapse", "data-target":"#effective-search-icon-form", role: "button"}
         = icon('x', class: "big-1")
+
+  #effective-search-overlay.bg-primary{"data-toggle":"collapse", "data-target":"#effective-search-icon-form"}
 
   .nav-link#effective-search-icon.d-flex.align-items-center{"data-target":"#effective-search-icon-form", "data-toggle":"collapse"}
     = icon('search')
