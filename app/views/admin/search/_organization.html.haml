@@ -1,5 +1,5 @@
 %a.list-group-item.list-group-item-action{href: effective_memberships.edit_admin_organization_path(organization), title: organization}
-  %p.mb-0= organization
+  %strong= organization
   %small.text-muted
     - if organization.class.try(:effective_memberships_organization_owner?)
       - if (membership = organization.try(:membership)).present?

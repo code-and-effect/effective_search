@@ -1,0 +1,7 @@
+- path = (EffectiveResources.authorized?(self, :edit, event) ? effective_events.edit_admin_event_path(event) : effective_events.admin_event_path(event))
+
+%a.list-group-item.list-group-item-action{href: path, title: event}
+  %strong= event.to_s
+  %small.text-muted
+    - if event.try(:start_at).present?
+      = event.start_at.strftime('%B %d, %Y')

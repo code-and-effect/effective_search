@@ -1,0 +1,9 @@
+- path = (EffectiveResources.authorized?(self, :edit, page) ? effective_pages.edit_admin_page_path(page) : effective_pages.admin_page_path(page))
+
+%a.list-group-item.list-group-item-action{href: path, title: page}
+  %strong= page.to_s
+  %small.text-muted
+    = badge(page.try(:draft?) ? :draft : :published)
+    - if page.try(:slug).present?
+      &bull;
+      = page.slug
