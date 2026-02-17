@@ -61,7 +61,7 @@ $(document).on('keydown', function(event) {
 
   // Don't trigger when typing in an input, textarea, or contenteditable
   var tag = event.target.tagName;
-  if (tag === 'input' || tag === 'textarea' || tag === 'select' || event.target.isContentEditable) return;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target.isContentEditable) return;
 
   event.preventDefault();
   $('#effective-search-admin-modal').modal('show');
