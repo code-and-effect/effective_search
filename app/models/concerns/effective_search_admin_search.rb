@@ -45,7 +45,7 @@ module EffectiveSearchAdminSearch
   end
 
   def applicants
-    @applicants = EffectiveMemberships.Applicant.where(user: users).order(created_at: :desc)
+    @applicants ||= EffectiveMemberships.Applicant.where(user: users).order(created_at: :desc)
   end
 
   def events
