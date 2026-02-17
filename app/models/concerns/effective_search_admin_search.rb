@@ -25,7 +25,7 @@ module EffectiveSearchAdminSearch
   end
 
   def per_page
-    3
+    5
   end
 
   def present?

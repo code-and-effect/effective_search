@@ -55,8 +55,20 @@ $(document).on('keydown keyup', "#effective-search-admin-modal form", function(e
   if(event.key === 'Enter') { event.preventDefault(); }
 });
 
+// Open the search modal when "/" is pressed
+$(document).on('keydown', function(event) {
+  if (event.key !== '/') return;
+
+  // Don't trigger when typing in an input, textarea, or contenteditable
+  var tag = event.target.tagName;
+  if (tag === 'input' || tag === 'textarea' || tag === 'select' || event.target.isContentEditable) return;
+
+  event.preventDefault();
+  $('#effective-search-admin-modal').modal('show');
+});
+
 // Auto focus the search input when the modal is shown
 $(document).on('shown.bs.modal', '#effective-search-admin-modal', function () {
-  $(".effective-search-admin").find('input[type="search"]').first().focus();
+  $(".effective-search-admin").find('#q_term').focus();
 });
 
