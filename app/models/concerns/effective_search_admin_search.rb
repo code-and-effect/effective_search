@@ -45,7 +45,19 @@ module EffectiveSearchAdminSearch
   end
 
   def applicants
-    @applicants = EffectiveMemberships.Applicant.where(user: users).order(created_at: :desc)
+    @applicants ||= EffectiveMemberships.Applicant.where(user: users).order(created_at: :desc)
+  end
+
+  def events
+    @events ||= Effective::Resource.new(Effective::Event).search_any(term, columns: [:title]).reorder(start_at: :desc)
+  end
+
+  def pages
+    @pages ||= Effective::Resource.new(Effective::Page).search_any(term, columns: [:title])
+  end
+
+  def posts
+    @posts ||= Effective::Resource.new(Effective::Post).search_any(term, columns: [:title]).reorder(published_start_at: :desc)
   end
 
   # Search and assigns the collection
@@ -56,6 +68,9 @@ module EffectiveSearchAdminSearch
     @orders = orders()
     @applicants = applicants()
     @organizations = organizations()
+    @events = events()
+    @pages = pages()
+    @posts = posts()
   end
 
   # The paginated results
@@ -73,6 +88,18 @@ module EffectiveSearchAdminSearch
 
   def organization_results(page: nil)
     results(organizations, page: page)
+  end
+
+  def event_results(page: nil)
+    results(events, page: page)
+  end
+
+  def page_results(page: nil)
+    results(pages, page: page)
+  end
+
+  def post_results(page: nil)
+    results(posts, page: page)
   end
 
   private

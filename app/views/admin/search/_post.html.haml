@@ -1,0 +1,12 @@
+- path = (EffectiveResources.authorized?(self, :edit, post) ? effective_posts.edit_admin_post_path(post) : effective_posts.admin_post_path(post))
+
+%a.list-group-item.list-group-item-action{href: path, title: post}
+  %strong= post.to_s
+  %small.text-muted
+    - if post.try(:published_at).present?
+      = post.published_at.strftime('%B %d, %Y')
+      &bull;
+    = badge(post.try(:draft?) ? :draft : :published)
+    - if post.try(:category).present?
+      &bull;
+      = post.category

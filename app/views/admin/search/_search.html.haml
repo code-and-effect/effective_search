@@ -5,7 +5,7 @@
 
     .d-flex.align-items-center.mb-3
       .flex-grow-1
-        = f.text_field :term, placeholder: 'Search users, companies, applicants, and orders', label: false, autofocus: true, autocomplete: 'off',
+        = f.text_field :term, placeholder: 'Search users, companies, applicants, orders, events, pages, and posts', label: false, autofocus: true, autocomplete: 'off',
           'data-load-ajax-url': effective_search.admin_search_path,
           'data-load-ajax-div': '#effective-search-results',
           'data-load-ajax-all': true,
@@ -36,3 +36,18 @@
         - if search.applicant_results.present?
           %small.font-weight-bold Applicants (#{search.applicants.count})
           .list-group.list-group-flush= render(collection: search.applicant_results, partial: 'admin/search/applicant')
+          %hr
+
+        - if search.event_results.present?
+          %small.font-weight-bold Events (#{search.events.count})
+          .list-group.list-group-flush= render(collection: search.event_results, partial: 'admin/search/event')
+          %hr
+
+        - if search.page_results.present?
+          %small.font-weight-bold Pages (#{search.pages.count})
+          .list-group.list-group-flush= render(collection: search.page_results, partial: 'admin/search/page')
+          %hr
+
+        - if search.post_results.present?
+          %small.font-weight-bold Posts (#{search.posts.count})
+          .list-group.list-group-flush= render(collection: search.post_results, partial: 'admin/search/post')
