@@ -1,3 +1,5 @@
-%li.nav-item.effective-search-nav-item
-  %a.nav-link{href: '#', data: { toggle: 'modal', target: '#effective-search-admin-modal' }, title: 'Search'}
-    = icon('search')
+.form-inline.ml-auto.mr-2
+  %button#effective-search-button{data: { toggle: 'modal', target: '#effective-search-admin-modal' }, title: 'Search'}
+    %span= icon('search')
+    %small.px-3 Quick search...
+    %small.px-2.border.bg-white /

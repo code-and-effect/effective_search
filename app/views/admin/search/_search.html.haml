@@ -3,39 +3,36 @@
   = effective_form_with(scope: :q, model: search, method: :get, url: effective_search.admin_search_path) do |f|
     = hidden_field_tag :page, (params[:page] || 1)
 
-    .d-flex.align-items-center
+    .d-flex.align-items-center.mb-3
       .flex-grow-1
-        = f.search_field :term, placeholder: 'Search', label: false, autofocus: true, autocomplete: 'off',
+        = f.text_field :term, placeholder: 'Search users, companies, applicants, and orders', label: false, autofocus: true, autocomplete: 'off',
           'data-load-ajax-url': effective_search.admin_search_path,
           'data-load-ajax-div': '#effective-search-results',
-          'data-load-ajax-all': true
+          'data-load-ajax-all': true,
+          wrapper: { class: 'form-group mb-0' }
 
       - if modal
         %div
-          = link_to 'Clear', '#', class: 'btn-link', style: "position: absolute; top: 1.5rem; right: 4rem; z-index: 10;", 'data-effective-search-clear': true
-
-        %div.ml-4.mb-3
-          %button.close{type: 'button', data: { dismiss: 'modal' }, 'aria-label': 'Close'}
-            %span{'aria-hidden': 'true'} &times;
+          %button.btn.btn-sm.btn-light.ml-3.border{type: 'button', data: { dismiss: 'modal' }, 'aria-label': 'Close'}
+            %span{'aria-hidden': 'true'} ESC
 
     #effective-search-results
       - if search.present?
-        - # Users
-        %p Users (#{search.users.count})
-        %table.table.table-hover
-          %tbody= render(collection: search.user_results, partial: 'admin/search/user')
+        - if search.order_results.present?
+          %small.font-weight-bold Orders (#{search.orders.count})
+          .list-group.list-group-flush= render(collection: search.order_results, partial: 'admin/search/order')
+          %hr
 
-        - # Organizations
-        %p #{ets(search.organizations)} (#{search.organizations.count})
-        %table.table.table-hover
-          %tbody= render(collection: search.organization_results, partial: 'admin/search/organization')
+        - if search.user_results.present?
+          %small.font-weight-bold Users (#{search.users.count})
+          .list-group.list-group-flush= render(collection: search.user_results, partial: 'admin/search/user')
+          %hr
 
-        - # Applicants
-        %p Applicants (#{search.applicants.count})
-        %table.table.table-hover
-          %tbody= render(collection: search.applicant_results, partial: 'admin/search/applicant')
+        - if search.organization_results.present?
+          %small.font-weight-bold #{ets(search.organizations)} (#{search.organizations.count})
+          .list-group.list-group-flush= render(collection: search.organization_results, partial: 'admin/search/organization')
+          %hr
 
-        - # Orders
-        %p Orders (#{search.orders.count})
-        %table.table.table-hover
-          %tbody= render(collection: search.order_results, partial: 'admin/search/order')
+        - if search.applicant_results.present?
+          %small.font-weight-bold Applicants (#{search.applicants.count})
+          .list-group.list-group-flush= render(collection: search.applicant_results, partial: 'admin/search/applicant')

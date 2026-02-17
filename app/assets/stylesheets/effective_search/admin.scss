@@ -1,14 +1,18 @@
-.effective-search-admin {
-  #effective-search-results {
-    a {
-      display: block;
-      color: inherit;
-      text-decoration: none;
-    }
+#effective-search-results {
+  hr {
 
-    span.badge {
-      color: #1F2328;
-      background-color: #EDEEEF;
-    }
+    margin-left:-1rem;
+    margin-right:-1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
+}
+
+#effective-search-button {
+  display: inline-flex;
+  align-items: center;
+  border: solid 1px #D1D9E0;
+  border-radius: 0.25rem;
+  background: #f8f9fa;
+  padding: 0.25rem 0.5rem;
 }
