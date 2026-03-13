@@ -1,4 +1,4 @@
-- path = (EffectiveResources.authorized?(self, :edit, order) ? effective_orders.admin_edit_order_path(order) : effective_orders.admin_order_path(order))
+- path = (EffectiveResources.authorized?(self, :edit, order) ? effective_orders.edit_admin_order_path(order) : effective_orders.admin_order_path(order))
 
 %a.list-group-item.list-group-item-action{href: path, title: order}
   %strong= order.to_s
