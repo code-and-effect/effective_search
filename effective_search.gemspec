@@ -28,6 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'effective_test_bot'
   spec.add_development_dependency 'effective_datatables'
   spec.add_development_dependency 'effective_developer' # Optional but suggested
-  spec.add_development_dependency 'psych'
   spec.add_development_dependency 'wicked'
 end
