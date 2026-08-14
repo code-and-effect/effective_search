@@ -11,11 +11,11 @@ module EffectiveSearch
   include EffectiveGem
 
   def self.Search
-    search_class_name&.constantize || Effective::Search
+    klass(:search)
   end
 
   def self.AdminSearch
-    admin_search_class_name&.constantize || Effective::AdminSearch
+    klass(:admin_search)
   end
 
   def self.authenticate_user?
