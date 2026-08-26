@@ -105,7 +105,7 @@ module EffectiveSearchAdminSearch
   private
 
   def results(collection, page: nil)
-    page = EffectiveResources.normalize_page(page)
+    page = EffectiveResources.normalize_page(page) || 1
     offset = [(page - 1), 0].max * per_page
 
     collection.limit(per_page).offset(offset)

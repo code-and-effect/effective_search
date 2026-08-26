@@ -71,7 +71,7 @@ module EffectiveSearchSearch
 
   # The paginated results
   def results(page: nil)
-    page = EffectiveResources.normalize_page(page)
+    page = EffectiveResources.normalize_page(page) || 1
     offset = [(page - 1), 0].max * per_page
 
     search_results.limit(per_page).offset(offset)
