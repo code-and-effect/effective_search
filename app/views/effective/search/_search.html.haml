@@ -2,7 +2,7 @@
   = render('effective/search/form', search: search)
 
   - if search.present?
-    - results = search.results(page: params[:page])
+    - results = search.results(page: @search_page)
     - search_contents = search.search_contents.select { |resource| search.authorized?(resource) }
     - permalinks = search.permalinks.select { |resource| search.authorized?(resource) }
 
@@ -28,4 +28,4 @@
           = render(collection: collection, partial: 'effective/search/result', locals: { search: search })
 
         %nav.d-flex.justify-content-center
-          = bootstrap_paginate(results, per_page: search.per_page)
+          = bootstrap_paginate(results, per_page: search.per_page, collection_count: @search_count)

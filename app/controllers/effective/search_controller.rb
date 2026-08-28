@@ -14,6 +14,14 @@ module Effective
       @search.search!
 
       if @search.present?
+        @search_count = @search.results.limit(nil).offset(nil).count
+
+        @search_page = EffectiveResources.validate_page!(
+          params[:page],
+          collection_count: @search_count,
+          per_page: @search.per_page
+        )
+
         @page_title = "Search results for &lsquo;#{@search}&rsquo;".html_safe
       else
         @page_title = "Search"
