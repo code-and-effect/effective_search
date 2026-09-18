@@ -9,9 +9,17 @@ class Effective::SearchControllerTest < ActionController::TestCase
     @routes = EffectiveSearch::Engine.routes
 
     search = EffectiveSearch.Search.new(term: 'missing')
-    search.define_singleton_method(:search!) { @search_results = PgSearch::Document.none }
+    search.define_singleton_method(:search!) { @search_results = FakeRelation.new([]) }
     @controller ||= Effective::SearchController.new
     @controller.define_singleton_method(:build_search) { search }
+  end
+
+  FakeRelation = Struct.new(:records) do
+    def limit(_value) = self
+    def offset(_value) = self
+    def with_pg_search_highlight = self
+    def load = self
+    def to_a = records
   end
 
   test 'invalid page raises record not found before rendering' do
@@ -28,5 +36,18 @@ class Effective::SearchControllerTest < ActionController::TestCase
     end
 
     assert_equal 'Page 2 does not exist', error.message
+  end
+
+  test 'search page title is not marked as HTML safe' do
+    search = EffectiveSearch.Search.new(term: '<script>alert(1)</script>')
+    search.define_singleton_method(:search!) { @search_results = FakeRelation.new([]) }
+    @controller.define_singleton_method(:build_search) { search }
+    @controller.define_singleton_method(:default_render) {}
+
+    get :index
+
+    page_title = @controller.view_assigns.fetch('page_title')
+    assert_equal 'Search results for ‘<script>alert(1)</script>’', page_title
+    assert_not page_title.html_safe?
   end
 end

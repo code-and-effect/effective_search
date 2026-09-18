@@ -12,12 +12,10 @@ module EffectiveSearchSearch
 
   included do
     include ActiveModel::Model
+    include EffectiveSearch::SearchTerm
 
     attr_accessor :current_user
     attr_accessor :view_context
-
-    attr_accessor :term
-    validates :term, length: { minimum: 3, allow_blank: true }
   end
 
   def to_s
@@ -39,16 +37,11 @@ module EffectiveSearchSearch
     24
   end
 
-  def present?
-    term.present?
-  end
-
   # Search and assigns the collection
   # Assigns the entire collection() if there are no search terms
   # Otherwise validate the search terms
   def search!
-    @search_results = build_collection()
-    @search_results = @search_results.none if present? && !valid?
+    @search_results = valid? ? build_collection() : PgSearch::Document.none
     @search_results
   end
 
