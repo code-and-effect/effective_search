@@ -2,7 +2,6 @@
   = render('effective/search/form', search: search)
 
   - if search.present?
-    - results = search.results(page: @search_page)
     - search_contents = search.search_contents.select { |resource| search.authorized?(resource) }
     - permalinks = search.permalinks.select { |resource| search.authorized?(resource) }
 
@@ -20,12 +19,11 @@
 
       -# Search results
       %div{class: (permalinks.present? ? 'col-xl-8 col-lg-7' : 'col')}
-        - if results.length == 0
+        - if @search_results.empty?
           .alert.alert-info There are no results for your search. Please try again.
 
-        - if results.length > 0
-          - collection = results.with_pg_search_highlight.select { |result| search.authorized?(result) }
+        - if @search_results.any?
+          - collection = @search_results.select { |result| search.authorized?(result) }
           = render(collection: collection, partial: 'effective/search/result', locals: { search: search })
 
-        %nav.d-flex.justify-content-center
-          = bootstrap_paginate(results, per_page: search.per_page, collection_count: @search_count)
+        = effective_search_paginate(page: @search_page, has_next_page: @search_has_next_page)

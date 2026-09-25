@@ -14,15 +14,21 @@ module Effective
       @search.search!
 
       if @search.present?
-        @search_count = @search.results.limit(nil).offset(nil).count
+        @search_page = EffectiveResources.normalize_page(params[:page])
+        raise ActiveRecord::RecordNotFound, "Page #{params[:page].inspect} is invalid" unless @search_page
 
-        @search_page = EffectiveResources.validate_page!(
-          params[:page],
-          collection_count: @search_count,
-          per_page: @search.per_page
-        )
+        results = @search.results(page: @search_page)
+          .limit(@search.per_page + 1)
+          .with_pg_search_highlight
+          .load
+          .to_a
 
-        @page_title = "Search results for &lsquo;#{@search}&rsquo;".html_safe
+        raise ActiveRecord::RecordNotFound, "Page #{@search_page} does not exist" if @search_page > 1 && results.empty?
+
+        @search_has_next_page = (results.length > @search.per_page)
+        @search_results = results.first(@search.per_page)
+
+        @page_title = "Search results for ‘#{@search}’"
       else
         @page_title = "Search"
       end

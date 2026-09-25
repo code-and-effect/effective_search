@@ -7,5 +7,11 @@ module EffectiveSearch
       eval File.read("#{config.root}/config/effective_search.rb")
     end
 
+    initializer 'effective_search.action_text' do
+      ActiveSupport.on_load(:action_text_rich_text) do
+        include EffectiveSearch::ActionTextSearchIndex
+      end
+    end
+
   end
 end

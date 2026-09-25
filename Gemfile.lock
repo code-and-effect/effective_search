@@ -3,7 +3,7 @@ PATH
   specs:
     effective_search (0.7.0)
       effective_bootstrap
-      effective_resources
+      effective_resources (>= 2.42.0)
       pg_search
       rails (>= 6.0.0)
 

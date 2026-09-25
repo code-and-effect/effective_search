@@ -1,4 +1,5 @@
 require 'effective_resources'
+require 'effective_search/action_text_search_index'
 require 'effective_search/engine'
 require 'effective_search/version'
 
