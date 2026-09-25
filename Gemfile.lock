@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    effective_search (0.8.0)
+    effective_search (0.7.0)
       effective_bootstrap
       effective_resources (>= 2.42.0)
       pg_search
