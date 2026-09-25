@@ -6,16 +6,33 @@
 module EffectiveSearchSearch
   extend ActiveSupport::Concern
 
+  MAX_LENGTH = 200
+
   module ClassMethods
     def effective_search_search?; true; end
   end
 
   included do
     include ActiveModel::Model
-    include EffectiveSearch::SearchTerm
 
     attr_accessor :current_user
     attr_accessor :view_context
+    attr_accessor :term
+
+    validate do
+      value = term.to_s
+
+      unless value.valid_encoding?
+        errors.add(:term, 'must use UTF-8 encoding')
+        next
+      end
+
+      next if value.blank?
+
+      errors.add(:term, 'contains an invalid null byte') if value.include?("\0")
+      errors.add(:term, :too_short, count: 3) if value.length < 3
+      errors.add(:term, :too_long, count: MAX_LENGTH) if value.length > MAX_LENGTH
+    end
   end
 
   def to_s
@@ -35,6 +52,10 @@ module EffectiveSearchSearch
 
   def per_page
     24
+  end
+
+  def present?
+    valid? && term.to_s.present?
   end
 
   # Search and assigns the collection
@@ -113,7 +134,7 @@ module EffectiveSearchSearch
 
   protected
 
-  # Returns an ActiveRecord collection of PgSearch::Document 
+  # Returns an ActiveRecord collection of PgSearch::Document
   def build_collection
     raise('expected pg_search gem') unless defined?(PgSearch)
 

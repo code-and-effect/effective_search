@@ -10,7 +10,7 @@ class SearchTest < ActiveSupport::TestCase
     terms = [
       "abc\xFFdef".b.force_encoding(Encoding::UTF_8),
       "abc\0def",
-      'a' * (EffectiveSearch::SearchTerm::MAX_LENGTH + 1)
+      'a' * (EffectiveSearchSearch::MAX_LENGTH + 1)
     ]
 
     terms.each do |term|
@@ -22,7 +22,7 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   test 'accepts a search term at the maximum length' do
-    search = EffectiveSearch.Search.new(term: 'a' * EffectiveSearch::SearchTerm::MAX_LENGTH)
+    search = EffectiveSearch.Search.new(term: 'a' * EffectiveSearchSearch::MAX_LENGTH)
 
     assert search.valid?
   end
