@@ -1,9 +1,10 @@
-#effective-search-admin-modal.modal.fade{tabindex: '-1', role: 'dialog'}
-  .modal-dialog.modal-lg{role: 'document'}
-    .modal-content
-      .modal-body
-        - search = EffectiveSearch.AdminSearch.new
-        = render('admin/search/search', search: search, modal: true)
+- if EffectiveResources.authorized?(self, :index, EffectiveSearch.AdminSearch)
+  #effective-search-admin-modal.modal.fade{tabindex: '-1', role: 'dialog'}
+    .modal-dialog.modal-lg{role: 'document'}
+      .modal-content
+        .modal-body
+          - search = EffectiveSearch.AdminSearch.new
+          = render('admin/search/search', search: search, modal: true)
 
-      .modal-footer.bg-light.p-1
-        %small.text-muted Search by name, title, email, or order number. Quick open with forward slash.
+        .modal-footer.bg-light.p-1
+          %small.text-muted Search by name, title, email, or order number. Quick open with forward slash.

@@ -63,8 +63,11 @@ $(document).on('keydown', function(event) {
   var tag = event.target.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target.isContentEditable) return;
 
+  var $modal = $('#effective-search-admin-modal');
+  if ($modal.length === 0) return;
+
   event.preventDefault();
-  $('#effective-search-admin-modal').modal('show');
+  $modal.modal('show');
 });
 
 // Auto focus the search input when the modal is shown
